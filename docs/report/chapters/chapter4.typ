@@ -100,6 +100,11 @@ The desktop application is built with PySide6 (Qt for Python) for a native cross
 It includes modules for audio recording and playback (sounddevice), file handling (soundfile), and model inference, calling the shared model package directly with no separate server, so it works fully offline.
 PDF report generation uses Typst with pypdfium2 for viewing.
 
-Screenshots of both interfaces are shown in Chapter 6.
+Both interfaces share the same model package, preprocessing conventions, and result schema, so a recording analysed in the browser and the same recording analysed on the desktop produce identical predictions and reports.
+The web client keeps long-running requests responsive by streaming progress updates and disabling duplicate submissions while an analysis is in flight, while the desktop client runs inference in a worker thread so the window stays interactive during transcription and localization.
+Theme switching, keyboard navigation, and consistent layout across window sizes are handled at the component level, which keeps the interface usable for clinicians who move between machines and screen sizes.
+Uploaded audio is validated on the client before it reaches the backend, and the results view keeps the waveform, transcript, and per-class confidence table in sync so that selecting a timestamp jumps to the corresponding part of the recording.
+Report generation is deliberately decoupled from analysis: the stored result payload is sufficient to rebuild the PDF, which means a report can be regenerated with a different layout or header without repeating the expensive model inference.
+This shared design also simplifies maintenance, because a change to the result schema or the report template propagates to both interfaces from a single source rather than being reimplemented twice.
 
 #pagebreak()

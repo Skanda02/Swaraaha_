@@ -87,6 +87,10 @@ The shipped `single` configuration of five independent binary classifiers scores
 
 The confusion matrices for the five dysfluency types are shown in Figure 5.3 and visualize the distribution of predictions of the shipped `single` configuration of five independent binary classifiers.
 
+Before examining the matrices, it is useful to recall how the aggregate scores were obtained. Each binary classifier was trained with a class-balanced objective, and the operating threshold was selected on the validation split rather than the test split, so the matrices show the behaviour of the shipped configuration at its default threshold rather than a threshold tuned to inflate the reported numbers. Reading them row by row reveals how often each event type is correctly recovered, while reading them column by column shows which fluent or other-type segments are most likely to be mistaken for it. This distinction matters in practice, because a clinician cares both about missed events and about false alarms that interrupt a session.
+
+The matrices are arranged so that the true label is on one axis and the predicted label on the other, with darker cells indicating larger counts. A classifier that simply predicted the majority class would produce a single dark row, which none of the five matrices does, confirming that each head learned a genuine decision boundary rather than collapsing to the dominant label. The remaining off-diagonal mass is concentrated in specific cells, which points to concrete confusions that later sections address through threshold tuning and post-processing.
+
 #add_image(
   grid(
     columns: (1fr, 1fr, 1fr),
@@ -100,6 +104,13 @@ The confusion matrices for the five dysfluency types are shown in Figure 5.3 and
   ),
   caption: [Confusion matrices for the five binary classifiers]
 )
+
+Each confusion matrix contrasts the true labels against the predicted labels for one binary classifier, so the diagonal cells count correct decisions and the off-diagonal cells expose the direction of error.
+A strong diagonal with a light upper-right corner means the classifier rarely over-triggers, while a heavy lower-left corner indicates missed events, and the balance between the two is what separates a conservative detector from an over-sensitive one.
+Interjection shows the cleanest diagonal, consistent with its high F1 and AUROC, because its acoustic signature, typically a short vocalized filler, is spectrally distinct from fluent speech.
+Block and word repetition show more spread, since prolonged silences and repeated words can resemble pauses and normal hesitation, which the classifiers then confuse at the boundary.
+Reading the matrices alongside the per-class table makes the trade-off explicit: a classifier tuned for high recall shifts mass into the false-positive corner, while one tuned for precision leaves more events undetected.
+This is precisely why the shipped system keeps separate binary classifiers instead of a single multi-class head, since each event type can be calibrated to its own operating point without disturbing the others.
 
 The Wav2Vec2-based model family also provides the frame-level localizer, evaluated on the same 3,715 test samples at a threshold of 0.5; the shipped registry inference threshold for this localizer is 0.3. Results are in Table 5.2.
 
@@ -120,6 +131,9 @@ The Wav2Vec2-based model family also provides the frame-level localizer, evaluat
 The localizer detects most dysfluency events with good accuracy: frame precision is 0.805 and recall is 0.738, so most true events are found and most predictions are correct.
 The mean IoU of 0.779 means the regions it finds overlap well with ground truth.
 Of 995 true events it predicted 1,846, of which 1,263 were false alarms (4.28 per minute).
+
+The gap between frame-level and event-level behaviour is worth emphasizing. A frame F1 of 0.770 means that most individual frames are labelled correctly, but the event count shows that the localizer predicts nearly twice as many events as are actually present, so a clinician using the raw output would see clusters of short, spurious detections around genuine events. The 4.28 false alarms per minute figure is the practical consequence of that over-prediction, and it is the main reason the shipped registry applies a higher inference threshold of 0.3 rather than the 0.5 used for reporting.
+Raising the threshold trades recall for precision by removing low-confidence detections, which reduces the false-alarm rate at the cost of occasionally dropping a weak but real event. The choice of threshold is therefore a clinical decision as much as a technical one, and the system exposes it as a configurable parameter so that a screening workflow can favour sensitivity while a detailed assessment can favour precision. The following subsection turns to how the classifiers behind these detections were trained, since the localizer and the classifiers share the same pretrained backbone and the same preprocessing conventions.
 
 These frame-level metrics are visualized in Figure 5.4.
 
@@ -225,5 +239,10 @@ The per-class tuned F1 scores on the Boli set are shown in Figure 5.5, where the
 #add_image(align(center, image("/assets/classifier_boli_f1.png", width: 90%)), caption: [Per-class tuned F1 on the Boli set])
 
 It was concluded that the Wav2Vec2 family should be shipped for in-distribution accuracy, with the CNN-LSTM variant available as a lighter alternative that transfers best to unseen speakers and languages.
+
+This conclusion reflects a deliberate trade-off rather than a claim that one architecture dominates on every axis. The Wav2Vec2 classifiers benefit from representations learned on large amounts of unlabeled speech, which is why they lead on the test set where the speakers and recording conditions resemble the training distribution. On the Boli corpus, where speakers and languages differ from the podcast-style training data, the advantage narrows and the smaller CNN models transfer better, suggesting that heavy pretrained backbones overfit to the acoustic characteristics of their training corpora.
+The practical implication is that the system reports both numbers instead of a single headline score, and that deployment should state which regime is expected. For a clinic working with speakers and equipment similar to the training data, the Wav2Vec2 configuration is the better default; for a deployment that must handle unfamiliar speakers or languages without retraining, the CNN-LSTM variant is the safer choice and runs on far more modest hardware.
+
+The comparison also clarifies where further work would pay off: the gap between in-distribution and cross-corpus performance is larger than the gap between architectures, so data coverage and speaker diversity matter more than adding parameters.
 
 #pagebreak()

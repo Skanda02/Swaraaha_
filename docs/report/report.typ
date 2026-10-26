@@ -35,7 +35,7 @@
 }
 
 #show figure.where(kind: table): set block(breakable: true)
-#show figure.where(kind: table): set figure.caption(position: top)
+#show figure.where(kind: table): set figure.caption(position: bottom)
 
 #counter(heading).update(0)
 
@@ -51,7 +51,7 @@
 // --- Header and footer for the main body ---
 #set page(
   paper: "a4",
-  margin: (top: 53.85pt, bottom: 72pt, left: 87.9pt, right: 72pt),
+  margin: (top: 0.75in, bottom: 0.75in, left: 1in, right: 1.25in),
   numbering: (cur, ..t) => if cur < 10 { "0" + str(cur) } else { str(cur) },
   
   // Header definition
@@ -82,7 +82,7 @@
 #show heading.where(level: 2): set text(size: 16pt, weight: "bold")
 #show heading.where(level: 2): set block(above: 12.6pt, below: 16pt)
 #show heading.where(level: 3): set text(size: 14pt, weight: "bold")
-#show heading.where(level: 3): set block(above: 12.6pt, below: 10pt)
+#show heading.where(level: 3): set block(above: 12.6pt, below: 15.5pt)
 
 #set par(
   justify: true,

@@ -8,7 +8,7 @@
   v(0.5em)
 }
 
-#let chapter_heading(body) = {
+#let chapter_heading(body, size: 18pt) = {
   counter(heading).step()
   counter(figure.where(kind: table)).update(0)
   counter(figure.where(kind: image)).update(0)
@@ -28,7 +28,7 @@
       #set text(weight: "bold", size: 16pt)
       #set align(left)
       CHAPTER #chap
-      #set text(size: 18pt)
+      #set text(size: size)
       #set align(center)
       #v(0.5em)
       #body

@@ -2,7 +2,7 @@
 #import "../meta.typ": *
 
 // --- Chapter 2: Requirement Specification and Analysis ---
-#chapter_heading[REQUIREMENT SPECIFICATION AND ANALYSIS]
+#chapter_heading(size: 17pt)[REQUIREMENT SPECIFICATION AND ANALYSIS]
 
 == INTRODUCTION
 
@@ -112,5 +112,8 @@ Proper hardware ensures smooth data processing, model training, and inference pe
 - *Memory (RAM):* a minimum of 8 GB RAM is necessary to run the training scripts and handle datasets. However, 16 GB or more is recommended for better performance, especially during the training and validation phases when data loading and augmentation are involved.
 - *Graphics Processing Unit (GPU):* for faster model training and efficient computation, an NVIDIA GPU with CUDA support is highly recommended. GPUs such as the NVIDIA RTX 2060 or higher (e.g., RTX 3060, RTX 3080) can greatly reduce training time and handle larger datasets and complex neural network architectures effectively. Proper installation of CUDA and cuDNN is required to ensure full compatibility with PyTorch.
 - *Audio Input Device:* a functional microphone is required for recording speech input within the application.
+
+The minimum configuration is sufficient for inference on short clips, while training or fine-tuning the larger pretrained backbones benefits from the recommended configuration.
+A GPU with at least 8 GB of memory is preferable when fine-tuning, although the classification-only mode runs comfortably on a CPU.
 
 #pagebreak()

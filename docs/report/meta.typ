@@ -57,9 +57,9 @@
 #let guide_designation = "Assistant Professor"
 #let hod = "Dr. Radhika Shetty D S"
 #let hod_pronoun = "her"
-#let principal = "Dr. Mahesh Prasanna K"
-#let principal_pronoun = "his"
+#let principal = "Dr. Purushothama Chippar"
 
+#let principal_pronoun = "his"
 // Dates
 #let academic_year = "2026-27"
 #let academic_year_full = "2026-2027"
@@ -69,4 +69,4 @@
 // Header / footer
 #let header_title = project_title
 #let header_year = academic_year
-#let footer_dept = "Department of " + department + ", V. C. E. T, " + college_place + "."
+#let footer_dept = "Department of " + department + ", VCET, " + college_place + "."

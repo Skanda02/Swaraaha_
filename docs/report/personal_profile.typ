@@ -1,7 +1,7 @@
 #import "lib.typ": *
 
 #set text(size: 12pt)
-#set par(justify: true, leading: 18pt, spacing: 18pt)
+#set par(justify: true, leading: 1.5em, spacing: 18.32pt)
 #set par(justify: false)
 
 #pagebreak()
@@ -17,7 +17,7 @@
 #v(2em)
 
 #let profile_photo(path) = box(
-  image(path, width: 100pt, height: 125pt, fit: "cover"),
+  image(path, width: 90pt, height: 108pt, fit: "cover"),
   stroke: 1pt + black,
   radius: 2pt,
 )
@@ -25,7 +25,7 @@
 #let student_details(name, usn, email, phone) = [
   #text(weight: "bold")[#name]
   #v(0.2em)
-  USN: #usn
+  #h(2em)USN: #usn
   #v(0.2em)
   Email ID: #email
   #v(0.2em)
@@ -35,7 +35,7 @@
 #table(
   columns: (110pt, 1fr),
   stroke: 0.5pt + black,
-  inset: 10pt,
+  inset: 6pt,
   align: left,
   align(center)[#profile_photo("/assets/Ajay Shastry C G.jpg")],
   [
@@ -55,7 +55,7 @@
     "upadhyayashreekrishna@gmail.com",
     "+91 96861 08613",
   ),
-  align(center)[#profile_photo("/assets/M Chethan Keshav Bhat.jpeg")],
+  align(center)[#profile_photo("/assets/M Chethan Keshav Bhat.png")],
   student_details(
     "M Chethan Keshav Bhat",
     "4VP23AI023",

@@ -32,4 +32,26 @@ This automated approach reduces manual workload, minimizes observer bias, and en
 == LITERATURE SURVEY
 #include "/contents/literature_survey.typ"
 
+== PROBLEM STATEMENT
+
+Stuttering assessment in clinical practice still depends heavily on manual observation, where a speech-language pathologist listens to recordings and marks dysfluencies by hand. This process is slow, subjective, and difficult to reproduce, and the disagreement between raters makes it hard to track a patient's progress reliably. Existing automated tools mostly stop at binary detection, reporting that a recording contains stuttering without indicating which type occurred or where in the audio it occurred, which limits their usefulness for therapy planning.
+
+The problem addressed in this project is therefore to build a single pipeline that takes an unconstrained speech recording and produces a structured analysis: whether stuttering is present, which of the five dysfluency types are involved, and the exact time regions where each event occurs. The system must also remain usable without large annotated corpora from the target speaker and must run fast enough to support interactive assessment rather than offline batch processing.
+
+== OBJECTIVES
+
+The project is organized around four objectives, each contributing one stage of the final pipeline.
+
++ *Speech preprocessing:* clean and standardize the input audio so that every downstream model receives consistent data. This covers resampling to a fixed rate, DC offset removal, peak normalization, silence trimming, fixed-length padding, and augmentation such as noise injection and time or pitch shifting, which together reduce the effect of varying recording conditions and speaker loudness.
+
++ *Stutter detection:* determine whether a given speech sample contains dysfluent speech at all. This objective produces the binary signal that gates the rest of the analysis, so it is trained to be robust across speakers, languages, and background noise rather than tuned only for clean studio recordings.
+
++ *Stutter classification:* identify which dysfluency types are present among prolongation, block, sound repetition, word repetition, and interjection. Because these events often co-occur, each type is modelled as an independent decision with its own confidence score instead of forcing a single mutually exclusive label.
+
++ *Stutter localization:* find the time regions in the waveform where the detected events occur and align them with the corresponding words in the transcript. This objective turns a clip-level prediction into actionable timestamps, allowing clinicians to jump directly to the affected segment and compare the detected events against the spoken content.
+
+These objectives are ordered so that each one builds on the output of the previous stage. Preprocessing produces a normalized waveform and spectrogram representation that both the detection and classification models consume, detection narrows the analysis to samples that actually contain dysfluencies, classification assigns type-level scores to those samples, and localization maps the detected events back onto the time axis and the transcript. Keeping the stages separate means a weakness in one can be diagnosed and improved without retraining the entire pipeline, and it also allows lighter configurations, such as classification-only mode, to reuse the earlier stages.
+
+Each objective is associated with measurable criteria. Preprocessing quality is checked through signal-level consistency across datasets, detection through precision, recall, and F1 on held-out clips, classification through per-type F1 and AUROC, and localization through frame-level precision, recall, and mean intersection over union. Reporting these metrics separately makes the contribution of each stage visible, and together the objectives define a system that is accurate in distribution, transferable to unseen speakers, and practical for interactive clinical use.
+
 #pagebreak()

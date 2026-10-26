@@ -38,7 +38,7 @@
   #v(21.7pt)
   #cl(13pt, weight: "bold")[Submitted By]
   #v(6.15pt)
-  #grid(columns: (30pt, 1fr, 70pt, 95pt), column-gutter: 0pt,
+  #grid(columns: (30pt, 1fr, 95pt, 95pt), column-gutter: 0pt,
     [],
     align(left, text(size: 13pt, weight: "bold", fill: rgb("#002060"))[Name]),
     align(right, text(size: 13pt, weight: "bold", fill: rgb("#002060"))[USN]),
@@ -46,7 +46,7 @@
   )
   #v(6.05pt)
   #for a in authors [
-    #grid(columns: (30pt, 1fr, 70pt, 95pt), column-gutter: 0pt,
+    #grid(columns: (30pt, 1fr, 95pt, 95pt), column-gutter: 0pt,
       [],
       align(left, text(size: 13pt, weight: "bold", fill: rgb("#0070c0"))[#upper(a.name)]),
       align(right, text(size: 13pt, weight: "bold", fill: rgb("#0070c0"))[#a.usn]),
