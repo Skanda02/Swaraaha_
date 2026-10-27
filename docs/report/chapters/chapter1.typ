@@ -50,8 +50,8 @@ The project is organized around four objectives, each contributing one stage of 
 
 + *Stutter localization:* find the time regions in the waveform where the detected events occur and align them with the corresponding words in the transcript. This objective turns a clip-level prediction into actionable timestamps, allowing clinicians to jump directly to the affected segment and compare the detected events against the spoken content.
 
-These objectives are ordered so that each one builds on the output of the previous stage. Preprocessing produces a normalized waveform and spectrogram representation that both the detection and classification models consume, detection narrows the analysis to samples that actually contain dysfluencies, classification assigns type-level scores to those samples, and localization maps the detected events back onto the time axis and the transcript. Keeping the stages separate means a weakness in one can be diagnosed and improved without retraining the entire pipeline, and it also allows lighter configurations, such as classification-only mode, to reuse the earlier stages.
+These objectives are ordered so that each one builds on the output of the previous stage. Preprocessing produces a normalized waveform and spectrogram representation that both the detection and classification models consume, detection narrows the analysis to samples that actually contain dysfluencies, classification assigns type-level scores to those samples, and localization maps the detected events back onto the time axis and the transcript.
 
-Each objective is associated with measurable criteria. Preprocessing quality is checked through signal-level consistency across datasets, detection through precision, recall, and F1 on held-out clips, classification through per-type F1 and AUROC, and localization through frame-level precision, recall, and mean intersection over union. Reporting these metrics separately makes the contribution of each stage visible, and together the objectives define a system that is accurate in distribution, transferable to unseen speakers, and practical for interactive clinical use.
+
 
 #pagebreak()

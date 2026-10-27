@@ -179,12 +179,4 @@ If any single service fails, the backend returns a structured error instead of a
 On success, the fused payload is stored locally so that reports and the session history can be reconstructed later without re-running the models, which also keeps repeated report generation fast and independent of the analysis services.
 This clear division between request handling, computation, and persistence is what allows the same backend to serve both the web and desktop interfaces while keeping behaviour identical across them.
 
-Concurrency is handled at the request boundary rather than inside the models, so two users analysing audio at the same time do not block each other's transcripts or reports.
-Long-running stages report progress through the same response channel that later carries the final payload, which lets the interface show a meaningful status instead of an indefinite spinner.
-Security is enforced before the pipeline begins: uploaded audio is size-limited, format-checked, and written to a temporary location that is cleared once the request completes or fails.
-No raw audio leaves the local environment, and the stored results contain only derived features, timings, and transcripts, which keeps the persistence layer lightweight and privacy-preserving.
-These design choices are not incidental implementation details; they are what make the sequence of interactions predictable under real use, where inputs vary in length, quality, and language.
-The diagram therefore documents not only the happy path but the contract between components, which the later chapters rely on when describing the classification and localization behaviour.
-This contract keeps failures local and recovery simple.
-
 #pagebreak()

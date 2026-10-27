@@ -43,8 +43,13 @@
       numbering: num => {
         let chap = counter(heading).get().first()
         numbering("1.1", chap, num)
-      }
+      },
+      supplement: [*Table*]
     )
+
+    show figure.caption: it => {
+      [*#it.supplement #it.counter.display(it.numbering):*] + h(0.5em) + [*#it.body*]
+    }
 
     show table.cell: it => {
       set par(justify: true)
@@ -54,6 +59,7 @@
     figure(
       tb,
       caption: caption,
+      kind: table,
     )
   }
 }
@@ -64,8 +70,13 @@
       numbering: num => {
         let chap = counter(heading).get().first()
         numbering("1.1", chap, num)
-      }
+      },
+      supplement: [*Figure*]
     )
+
+    show figure.caption: it => {
+      [*#it.supplement #it.counter.display(it.numbering):*] + h(0.5em) + [*#it.body*]
+    }
 
     figure(
       img,
