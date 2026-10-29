@@ -7,24 +7,19 @@
 == INTRODUCTION
 
 The development of a deep learning-based framework for stuttering classification and localization requires a clear understanding of both clinical and technical aspects.
-Before implementation, it is important to define specific functional and non-functional requirements, system components, and workflow to ensure accuracy and clinical reliability.
-The main goal is to transform the manual process of speech-language assessment into an efficient, automated computational model that supports early and objective dysfluency detection.
-The system should effectively process audio recordings, extract key features, and classify them into distinct stuttering types while localizing dysfluency events within the signal.
-It must address challenges like time-consuming manual analysis and inter-observer variation, emphasizing automation, precision, and interpretability.
-Technically, the framework integrates Wav2Vec 2.0 feature extraction with Wav2Vec2 frame-level localization and Whisper transcription for robust detection and localization.
-In addition, the system should operate efficiently on standard hardware, support scalability for future datasets, and offer a user-friendly interface for clinicians and end users.
-Data security and confidentiality are essential to maintain ethical and legal standards.
-Overall, the requirement specification and analysis phase ensures that the framework is both technically strong and clinically valuable, bridging the gap between healthcare needs and AI-driven solutions.
+Before implementation, the project needs to define its functional and non-functional requirements, system components, and workflow, so the result is accurate and clinically reliable.
+The goal is to turn manual speech-language assessment into an automated model that detects dysfluencies early and objectively.
+The system should process audio recordings, extract features, and classify them into distinct stuttering types. It should also locate dysfluency events within the signal.
+It needs to reduce the time manual analysis takes and the variation between observers, while keeping the analysis automated, precise, and easy to interpret.
+The framework uses Wav2Vec 2.0 for feature extraction, Wav2Vec2 for frame-level localization, and Whisper for transcription.
+It should also run efficiently on standard hardware, handle larger datasets as they arrive, and give clinicians and end users a simple interface.
+The system needs to keep data secure and confidential to meet ethical and legal standards.
 
 == FUNCTIONAL REQUIREMENTS
 
-The functional requirements describe the key operations that the system must perform to support automated detection and classification of stuttering events using deep learning models.
-The application allows users, such as clinicians, speech-language pathologists, or individuals who stutter, to upload a speech recording or capture audio directly through the interface in common formats such as WAV, MP3, FLAC, and M4A.
-Once the audio is provided, the system processes the signal and classifies it into five dysfluency types: prolongation, block, sound repetition, word repetition, and interjection.
-The classification result is displayed on the interface along with a confidence score for each detected class, helping users understand how reliable every prediction is.
-The system also localizes dysfluency events within the audio and returns their exact temporal positions as timestamps, with visualization through waveforms, spectrograms, and dysfluency overlays that highlight the regions that influenced the model's decision, improving interpretability.
-Additionally, users can download the detailed analysis report for record-keeping.
-The framework ensures that uploaded audio and prediction results are stored securely for future reference.
+The functional requirements list what the system must do to detect and classify stuttering events with deep learning models. Clinicians, speech-language pathologists, and people who stutter can upload a recording or capture audio through the interface. Supported formats are WAV, MP3, FLAC, and M4A.
+
+The system processes the audio and sorts it into five dysfluency types: prolongation, block, sound repetition, word repetition, and interjection. For each detected class, the interface shows the result and a confidence score, so users can see how reliable the prediction is. The system also locates dysfluency events and returns their timestamps. Waveforms, spectrograms, and overlays mark the regions that influenced the model's decision, which makes the output easier to interpret. Users can download the full analysis report for their records, and the system stores uploaded audio and results securely for later reference.
 
 === User Requirements
 
