@@ -78,7 +78,6 @@ Both the web and desktop applications load trained models through the centralize
 The registry reads from a registry module (the `model/registry` package) and a configuration file (`registry.json`), so checkpoints can be updated or replaced without changing application code, which keeps the system flexible and easy to maintain.
 
 == FLOWCHART
-The data flow design follows the audio from input acquisition to final output.
 
 The process begins with the input audio, recorded or uploaded by the user.
 The audio is converted to 16 kHz mono WAV with FFmpeg, then padded or truncated to 48,000 samples, three seconds at 16 kHz, so all inputs have the same length.
