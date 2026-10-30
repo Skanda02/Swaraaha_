@@ -312,9 +312,9 @@
   It extends stuttering detection to an underrepresented language and shows that hybrid approaches combining linguistic rules with data-driven classification work.
 ]
 
-The studies surveyed above range from acoustic classifiers and self-supervised speech representations to multimodal fusion and synthetic data generation.
-A consolidated comparison of this body of work is presented in Table 1.1, which lists each study along with the features it exploits, its principal strengths, and its limitations.
-Taken together, the works trace a clear shift from hand-crafted acoustic features toward large pre-trained speech models, and they point to the gaps in multilingual coverage, localization, and clinical reliability that this project sets out to address.
+The studies above cover acoustic classifiers, self-supervised speech representations, multimodal fusion, and synthetic data generation.
+Table 1.1 compares them by features, strengths, and limitations.
+The field has moved from hand-crafted acoustic features toward large pre-trained models, while multilingual coverage, localization, and clinical reliability remain open.
 
 #add_table(
   {
