@@ -12,10 +12,10 @@ Spotting stuttering patterns early makes therapy and management easier.
 Detection and assessment usually depend on speech-language pathologists watching and listening manually.
 Results can be subjective, slow, and inconsistent from one expert to another, and the work is physically tiring.
 That reliance on human evaluation makes large-scale assessment and continuous monitoring difficult.
-Recent advances in deep learning and speech signal processing have made automated stutter detection a reliable alternative that can scale.
-This project builds a system that detects, classifies, and analyzes stuttering types (prolongation, block, sound repetition, word repetition, and interjection) using deep learning.
+Recent advances in speech signal processing and deep learning have made automated stutter detection a reliable alternative that can scale.
+This project builds a deep learning system that automatically detects, classifies, and analyzes five stuttering types: prolongations, blocks, sound repetitions, word repetitions, and interjections.
 
-Input audio is preprocessed and converted into embeddings, then analyzed with Wav2Vec 2.0, which captures local acoustic patterns and longer-range temporal dependencies that separate normal from dysfluent speech.
+Input audio is preprocessed and converted into embeddings, then analyzed with Wav2Vec 2.0, which captures short-range acoustic detail and dependencies across longer stretches of speech that separate fluent speech from dysfluent speech.
 Alongside classification, a localization module returns timestamps for the stuttering events.
 Those timestamps are hard-aligned with the transcript timestamps, so the system flags only the affected speech segments.
 The finished model sits behind a simple interface where users record or upload speech samples and get an analysis with timestamped detections and classification output.
@@ -27,7 +27,7 @@ The system also contributes to the growing use of artificial intelligence in hea
 The proposed method aims to develop an efficient deep learning-based system for the early detection and classification of speech dysfluencies from audio recordings.
 The process begins with comprehensive audio preprocessing that includes noise reduction, normalization, and enhancement of acoustic clarity across all samples.
 Segmentation isolates the meaningful regions of speech, eliminating irrelevant silence and background, and data augmentation such as noise injection, time and pitch shifting, and scaling simulates variations in speaking rate and recording conditions.
-The system accurately categorizes the input into five dysfluency types: prolongation, block, sound repetition, word repetition, and interjection, and localizes the segments where these occur, supporting early diagnosis and effective treatment planning.
+The system accurately sorts the input into five dysfluency types (prolongations, blocks, sound repetitions, word repetitions, and interjections) and marks the segments where they occur, which supports early diagnosis and effective treatment planning.
 This automated approach reduces manual workload, minimizes observer bias, and enhances diagnostic reliability, making it a valuable tool in computer-aided speech assessment.
 
 == LITERATURE SURVEY

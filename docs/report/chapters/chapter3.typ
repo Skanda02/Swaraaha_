@@ -19,7 +19,7 @@ By carefully organizing how each part of the system operates and communicates, s
 The system architecture defines the overall structure and organization of the Stuttering Classification and Localization System using deep learning.
 It provides a comprehensive framework describing how different components interact to process speech audio, extract discriminative features, and classify utterances into normal and dysfluent categories.
 A well-structured architecture ensures efficient data flow, modularity, and scalability, allowing the model to deliver high diagnostic accuracy while remaining adaptable to future advancements.
-The architecture incorporates critical stages such as preprocessing, feature extraction, model training, and classification to ensure robust performance.
+The architecture covers the main stages of the pipeline, from preprocessing and feature extraction to model training and classification, so that performance remains stable.
 Furthermore, it supports seamless integration with user interfaces for audio upload, visualization, and prediction display.
 Emphasis is placed on maintaining data security and patient confidentiality, ensuring ethical and reliable operation throughout the analysis workflow.
 Additionally, the architecture allows for performance optimization, enabling fast and accurate stutter detection even when deployed on large speech datasets.
@@ -43,13 +43,13 @@ This stage establishes the foundation of the diagnostic system by providing high
 The audio is sent to the backend and converted to 16 kHz mono WAV with FFmpeg so every clip is handled the same way.
 The preprocessing pipeline also includes DC offset removal, peak normalization, and silence trimming to clean the signal and remove unwanted artifacts.
 Fixed-length padding truncates or pads each clip to 48,000 samples, three seconds at 16 kHz, so all inputs have the same length.
-This step ensures that the input audio is standardized, optimized, and ready for accurate feature extraction and classification by the deep learning architecture.
+After this step the input audio is standardized and optimized, so the deep learning architecture can extract features and classify it accurately.
 
-*Wav2Vec 2.0:* The first part of the detection framework is Wav2Vec 2.0, a deep self-supervised model pre-trained on large amounts of unlabeled speech.
+*Wav2Vec 2.0:* Wav2Vec 2.0 forms the first part of the detection framework; it is a deep self-supervised model pre-trained on large amounts of unlabeled speech.
 Wav2Vec 2.0 quantizes the raw waveform into contextualized speech representations, learning robust acoustic features without requiring manually labeled data.
 This structure helps the model retain important information and capture fine-grained phonetic and prosodic patterns, such as broken phonation, repetitions, and elongated sounds, which are key indicators of dysfluent speech.
-Since it is pre-trained on large speech corpora, the model already understands general speech features, which makes it easier to adapt to stutter detection with limited labeled data.
-Its ability to extract multi-level, contextual features makes it a powerful foundation for detecting stutter events with high precision.
+Because it is pre-trained on large speech corpora, the model already understands general speech features, so adapting it to stutter detection with limited labeled data is easier.
+Because it extracts contextual features at several levels, it gives a strong base for detecting stutter events with high precision.
 
 *Detection and Localization Pipelines:* To achieve higher accuracy, the proposed system uses a hybrid detection framework that combines classification and localization.
 After preprocessing, the audio runs through three parallel pipelines: classification, transcription, and localization.
@@ -104,8 +104,8 @@ The process begins with the collection of speech audio recordings, followed by p
 The refined audio is then split into training, validation, and testing datasets with an 80:10:10 split.
 Initially, the Wav2Vec 2.0 model is used to extract high-level contextual speech features.
 To enhance performance, a hybrid model combining five independent Wav2Vec 2.0 binary classifiers with a Wav2Vec2 frame-level localizer is developed, where the classifiers capture dysfluency-specific acoustic patterns and the localizer identifies fine-grained temporal segments.
-The outputs from both pipelines are fused through CTC-based alignment and passed through a final aggregation layer that categorizes the audio samples as containing blocks, prolongations, sound repetitions, word repetitions, or interjections, along with the precise localized regions.
-This flowchart provides a clear overview of the systematic steps involved in the proposed framework for stutter detection.
+CTC-based alignment fuses the outputs of both pipelines, and a final aggregation layer then labels each audio sample with the dysfluency types it contains (blocks, prolongations, sound repetitions, word repetitions, or interjections) and the regions where they occur.
+The flowchart summarizes the steps in the proposed stutter-detection framework.
 
 == USE CASE DIAGRAM AND DESCRIPTIONS
 

@@ -9,7 +9,7 @@ The home page of the Swaraaha web application, shown in Figure 6.1, features the
 
 #add_image(align(center, image("/assets/resultpage.png", width: 100%)), caption: [Results page of the web interface])
 
-The web results page, shown in Figure 6.2, presents the recorded waveform with localized dysfluency regions, synchronized playback controls, a timestamped live transcription, and confidence scores for prolongation, block, sound repetition, word repetition, and interjection. Users can upload another sample, review the complete analysis, or download a PDF report.
+The web results page, shown in Figure 6.2, presents the recorded waveform with localized dysfluency regions, synchronized playback controls, a timestamped live transcription, and confidence scores for blocks, prolongations, sound repetitions, word repetitions, and interjections. Users can upload another sample, review the complete analysis, or download a PDF report.
 
 #add_image(align(center, image("/assets/Swaraaha Home Page.png", width: 100%)), caption: [Home page of the desktop application])
 

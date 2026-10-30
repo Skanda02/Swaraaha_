@@ -26,7 +26,7 @@
   [P. Mohapatra et al.],
   [Speech Disfluency Detection with Contextual Representation and Data Distillation]
 )[
-  disfluencyNet, a deep learning model that detects speech disfluencies using contextual representations, was introduced in this paper.
+  The paper introduces disfluencyNet, a deep learning model that uses contextual representations to detect speech disfluencies.
   The model feeds contextual embeddings into a classification network, modeling speech dependencies to catch disfluencies such as repetitions and pauses.
   Data distillation limits the need for large training sets.
   Trained and evaluated on SEP-28k and FluencyBank, the model matched baseline accuracy using only a quarter of the data, which points to efficient training and strong generalization.
@@ -37,7 +37,7 @@
   [J. Liu et al.],
   [Automatic Speech Disfluency Detection Using wav2vec 2.0 for Different Languages with Variable Lengths]
 )[
-  A method for detecting disfluencies in multilingual speech of varying lengths was proposed in this paper using the context-based embeddings of wav2vec 2.0.
+  The paper proposes a way to detect disfluencies in multilingual speech of varying lengths by using wav2vec 2.0 context-based embeddings.
   A classification network takes the embeddings, and data distillation keeps only high-quality audio fragments where three human annotators agree on the disfluency labels.
   Tests on multilingual datasets with different speech lengths showed better performance than other approaches.
   The work supports the proposed system's use of pretrained models like wav2vec 2.0 and data filtering to improve robustness and cross-speaker generalization.

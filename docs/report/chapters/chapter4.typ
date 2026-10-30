@@ -49,7 +49,7 @@ To further improve classification accuracy, a hybrid model is developed by combi
 The Wav2Vec2 localizer captures fine-grained and localized temporal features at the frame level, complementing the broader segment-level feature extraction of the classifiers.
 The outputs from both models are then fused through CTC-based time alignment to form a comprehensive feature representation.
 During training, the AdamW optimizer is used to adjust learning rates adaptively and ensure stable convergence.
-The model is trained using mini-batches of audio, with weights updated through backpropagation based on the computed loss.
+Training uses mini-batches of audio, and backpropagation updates the weights from the computed loss.
 Validation is performed periodically to monitor accuracy and prevent overfitting.
 After training, the optimized parameters and learned weights are saved, enabling the models to make efficient and accurate predictions on new speech audio without retraining.
 
@@ -59,7 +59,7 @@ The testing phase is carried out after completing the training process to evalua
 When the user records or uploads a speech sample through the system's web interface or desktop application, it undergoes the same preprocessing steps used during training, including conversion to 16 kHz mono WAV, DC offset removal, peak normalization, silence trimming, and fixed-length padding, to ensure uniformity and accurate analysis.
 Initially, the trained Wav2Vec 2.0 model processes the audio to extract high-level contextual speech features.
 To further enhance accuracy, the audio is also analyzed using the hybrid model that combines five independent Wav2Vec 2.0 binary classifiers with a Wav2Vec2 frame-level localizer, allowing the system to capture both segment-level dysfluency patterns and fine-grained temporal details.
-The extracted features from both models are fused through CTC-based time alignment to form a comprehensive representation, which is then passed through the final aggregation layer to generate the classification result as containing blocks, prolongations, sound repetitions, word repetitions, or interjections, along with the precise localized regions.
+CTC-based time alignment fuses the features extracted by both models into one representation, and the final aggregation layer turns it into a classification result that names the dysfluency types present (blocks, prolongations, word repetitions, sound repetitions, or interjections) and the precise regions involved.
 The outcome is displayed on the interface in a clear and user-friendly format, with waveform overlays, spectrograms, a timestamped transcript, and confidence scores.
 Additionally, the model's predictions are compared with the actual ground truth labels to assess its accuracy and generalization performance.
 This phase confirms that the hybrid model performs effectively on new and unseen speech samples, demonstrating its potential for reliable stutter classification and localization in real-world clinical use.
@@ -69,15 +69,15 @@ Model evaluation is essential to assess the overall performance and reliability 
 Once the models are trained and tested, various quantitative metrics are employed to evaluate their classification performance comprehensively, including:
 
 - Accuracy: measures the proportion of correctly predicted samples.
-- Precision: evaluates how many of the predicted positive instances are truly positive.
+- Precision: the share of predicted positive instances that are actually positive.
 - Recall (Sensitivity): measures how effectively the model identifies all relevant positive samples.
 - F1-Score: provides a harmonic mean of precision and recall to balance both metrics.
 
 The five Wav2Vec 2.0 binary classifiers, one per dysfluency type, are further measured with AUROC (Area Under the Receiver Operating Characteristic Curve), AUPRC (Area Under the Precision-Recall Curve), and specificity, summarized per class and as a macro average across the five dysfluency classes.
 The Wav2Vec2 frame-level localizer is measured with frame-level precision, recall, and F1, detection accuracy, mean Intersection over Union (IoU) between predicted and ground-truth regions, and the false alarm rate per minute.
 
-A confusion matrix is generated for each of the five binary classifiers to visualize the distribution of predictions, highlighting true positives, false positives, true negatives, and false negatives.
-This detailed evaluation helps identify the strengths and weaknesses of each class, for example that interjections are detected most reliably while blocks are the hardest class.
+Each of the five binary classifiers gets a confusion matrix that shows how its predictions split across true positives, false positives, true negatives, and false negatives.
+This detailed evaluation shows where each class performs well and where it falls short; interjections, for example, are detected most reliably, while blocks are the hardest class.
 
 All reported results use the held-out test set of 3,715 clips, which is never touched during training or threshold selection, together with a cross-corpus Boli set that checks how well the models transfer to unseen speakers.
 
