@@ -19,7 +19,7 @@ By carefully organizing how each part of the system operates and communicates, s
 The system architecture defines the overall structure and organization of the Stuttering Classification and Localization System using deep learning.
 It provides a comprehensive framework describing how different components interact to process speech audio, extract discriminative features, and classify utterances into normal and dysfluent categories.
 A well-structured architecture ensures efficient data flow, modularity, and scalability, allowing the model to deliver high diagnostic accuracy while remaining adaptable to future advancements.
-The architecture incorporates critical stages such as preprocessing, feature extraction, model training, and classification to ensure robust performance.
+The architecture covers the main stages of the pipeline, from preprocessing and feature extraction to model training and classification, so that performance remains stable.
 Furthermore, it supports seamless integration with user interfaces for audio upload, visualization, and prediction display.
 Emphasis is placed on maintaining data security and patient confidentiality, ensuring ethical and reliable operation throughout the analysis workflow.
 Additionally, the architecture allows for performance optimization, enabling fast and accurate stutter detection even when deployed on large speech datasets.
@@ -37,32 +37,32 @@ The web app captures audio with MediaRecorder APIs; the desktop app uses soundde
 Each sample may contain one or more dysfluencies, including blocks, prolongations, word repetitions, sound repetitions, and interjections.
 Ensuring adequate recording quality is crucial, as variations in microphone hardware, background noise, and speaking rate can affect model reliability.
 The dataset includes recordings from Project Boli, SEP-28K, and UCLASS, and the ingestion pipeline resolves the English material of all three sources.
-This stage establishes the foundation of the diagnostic system by providing high-quality data for subsequent processing.
+This stage gives the diagnostic system its high-quality data for the steps that follow.
 
 *Preprocessing:* Before being fed into the deep learning model, speech audio undergoes preprocessing to enhance clarity, reduce noise, and ensure consistency across samples.
 The audio is sent to the backend and converted to 16 kHz mono WAV with FFmpeg so every clip is handled the same way.
 The preprocessing pipeline also includes DC offset removal, peak normalization, and silence trimming to clean the signal and remove unwanted artifacts.
 Fixed-length padding truncates or pads each clip to 48,000 samples, three seconds at 16 kHz, so all inputs have the same length.
-This step ensures that the input audio is standardized, optimized, and ready for accurate feature extraction and classification by the deep learning architecture.
+After this step the input audio is standardized and optimized, so the deep learning architecture can extract features and classify it accurately.
 
-*Wav2Vec 2.0:* The first part of the detection framework is Wav2Vec 2.0, a deep self-supervised model pre-trained on large amounts of unlabeled speech.
+*Wav2Vec 2.0:* The detection framework starts with Wav2Vec 2.0, a deep self-supervised model pre-trained on large amounts of unlabeled speech.
 Wav2Vec 2.0 quantizes the raw waveform into contextualized speech representations, learning robust acoustic features without requiring manually labeled data.
 This structure helps the model retain important information and capture fine-grained phonetic and prosodic patterns, such as broken phonation, repetitions, and elongated sounds, which are key indicators of dysfluent speech.
-Since it is pre-trained on large speech corpora, the model already understands general speech features, which makes it easier to adapt to stutter detection with limited labeled data.
-Its ability to extract multi-level, contextual features makes it a powerful foundation for detecting stutter events with high precision.
+Because it is pre-trained on large speech corpora, the model already understands general speech features, so adapting it to stutter detection with limited labeled data is easier.
+Because it extracts contextual features at several levels, it gives a strong base for detecting stutter events with high precision.
 
 *Detection and Localization Pipelines:* To achieve higher accuracy, the proposed system uses a hybrid detection framework that combines classification and localization.
 After preprocessing, the audio runs through three parallel pipelines: classification, transcription, and localization.
 The classification pipeline extracts speech representations with Wav2Vec 2.0 and passes them through five independent binary classifiers, each trained for a distinct dysfluency type.
 The localization pipeline identifies dysfluency regions at the frame level using Wav2Vec2 frame-level feature extraction, so it can mark the precise segments of speech where dysfluencies occur.
-By integrating both approaches, the system captures fine acoustic details and broader prosodic structures in the speech signal, ensuring robust results even when recordings vary in noise, clarity, or speaking style.
+Combining the two approaches lets the system catch fine acoustic detail and broader prosodic structure, so results stay stable when recordings vary in noise, clarity, or speaking style.
 
-*Classification:* Once the feature extraction is complete, the Wav2Vec 2.0 representations are passed to the classification stage.
-Here, five independent binary classifiers assign the presence probability of each dysfluency type, using decision boundaries learned during training to separate fluent and dysfluent speech.
-Sigmoid outputs generate per-class probabilities, while binary cross-entropy loss ensures efficient optimization during training.
+*Classification:* Once feature extraction finishes, the Wav2Vec 2.0 representations go to the classification stage.
+Here, five independent binary classifiers assign a presence probability to each dysfluency type, using decision boundaries learned during training to separate fluent from dysfluent speech.
+Sigmoid outputs give per-class probabilities, and binary cross-entropy loss drives optimization during training.
 Their outputs are aggregated into a multi-label result that reports the presence probability of each dysfluency type and summarizes the detected classes and the primary dysfluency.
 A multitask shared-backbone variant was also trained for comparison, and its outputs are combined with localization at prediction time: the combiner labels each localized region with per-class saliency scores and fuses the two views into a single annotated result.
-This stage translates complex audio data into clear diagnostic outcomes that can assist speech-language pathologists in identifying stutter events.
+The output gives speech-language pathologists diagnostic results they can act on when identifying stutter events.
 
 *Transcription and Alignment:* The transcription pipeline uses the Whisper Automatic Speech Recognition (ASR) model to produce a timestamped transcript, with support for English, Kannada, and Hindi.
 A Connectionist Temporal Classification (CTC) based time alignment step ties the pipelines together, mapping the detected dysfluency regions to specific words or syllables in the transcript.

@@ -6,15 +6,15 @@
 
 == CONCLUSION
 
-In conclusion, the proposed stuttering classification and localization system demonstrates strong potential in supporting accurate and objective assessment of speech dysfluencies through automated analysis of speech audio.
-By integrating Wav2Vec 2.0 feature extraction with Wav2Vec2 frame-level localization and Whisper transcription, the framework significantly strengthens feature extraction and improves classification performance.
-The systematic pipeline ranges from data preprocessing and classification of five dysfluency types using five independent Wav2Vec 2.0 binary classifiers, to event localization, transcription across English, Kannada, and Hindi, severity estimation, and PDF report generation.
+The proposed stuttering classification and localization system supports accurate, objective assessment of speech dysfluencies through automated analysis of speech audio.
+Combining Wav2Vec 2.0 feature extraction with Wav2Vec2 frame-level localization and Whisper transcription strengthens feature extraction and improves classification performance.
+The pipeline covers data preprocessing, classification of five dysfluency types with five independent Wav2Vec 2.0 binary classifiers, event localization, transcription in English, Kannada, and Hindi, severity estimation, and PDF report generation.
 
 The shipped default of independent classifiers reached a macro F1 score of 0.573, while the multitask shared-backbone variant scored 0.542 at the default threshold and 0.556 after per-class threshold tuning, with interjection the strongest class (F1 = 0.776, AUROC = 0.935) and block the weakest.
-The Wav2Vec2 localizer delivered balanced frame-level results (precision 0.805, recall 0.738, F1 0.770) with a mean IoU of 0.779, confirming the effectiveness of the approach.
+The Wav2Vec2 localizer produced balanced frame-level results (precision 0.805, recall 0.738, F1 0.770) with a mean IoU of 0.779.
 Overall, the complete system achieves a detection accuracy of 0.586 for localizing dysfluency events, alongside a frame-level F1 of 0.770 and a macro F1 of up to 0.573 for classification.
 
-Through its systematic pipeline, the system delivers consistent and reliable predictions that can help clinicians, speech-language pathologists, and people who stutter reduce the burden of manual analysis, minimize diagnostic variability, and make timely assessment decisions.
+The system gives clinicians, speech-language pathologists, and people who stutter consistent predictions that reduce the burden of manual analysis, limit diagnostic variability, and support timely assessment.
 Classification accuracy for sparse classes such as block and word repetition (macro F1 0.556) is not yet sufficient for a standalone diagnostic tool, and cross-corpus generalization weakens outside podcast-style data (multitask F1 drops from 0.556 on the test set to 0.238 on the Boli corpus).
 Despite these limitations, the modular architecture combines classification, localization, transcription, and reporting in one pipeline, providing a practical foundation for real-world speech assessment.
 

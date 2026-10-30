@@ -10,15 +10,14 @@ It affects people of all ages, and it can wear down confidence and make communic
 Spotting stuttering patterns early makes therapy and management easier.
 
 Detection and assessment usually depend on speech-language pathologists watching and listening manually.
-Results can be subjective, slow, and inconsistent from one expert to another, and the work is physically tiring.
+Results can be subjective, slow, and inconsistent from one expert to another, and the work takes a physical toll on the pathologist.
 That reliance on human evaluation makes large-scale assessment and continuous monitoring difficult.
-Recent advances in deep learning and speech signal processing have made automated stutter detection a reliable alternative that can scale.
-This project builds a system that detects, classifies, and analyzes stuttering types (prolongation, block, sound repetition, word repetition, and interjection) using deep learning.
+Recent advances in deep learning and speech signal processing have made automated stutter detection a reliable, scalable alternative.
+This project builds a deep learning system that automatically detects, classifies, and analyzes five stuttering types: prolongations, blocks, sound repetitions, word repetitions, and interjections.
 
-Input audio is preprocessed and converted into embeddings, then analyzed with Wav2Vec 2.0, which captures local acoustic patterns and longer-range temporal dependencies that separate normal from dysfluent speech.
-Alongside classification, a localization module returns timestamps for the stuttering events.
-Those timestamps are hard-aligned with the transcript timestamps, so the system flags only the affected speech segments.
-The finished model sits behind a simple interface where users record or upload speech samples and get an analysis with timestamped detections and classification output.
+Input audio is preprocessed and converted into embeddings, then analyzed with Wav2Vec 2.0, which captures fine acoustic detail and dependencies across longer stretches of speech that separate fluent speech from dysfluent speech.
+Alongside classification, the same audio passes through a localization module that returns the timestamps of the stuttering events. Those timestamps are hard-aligned with the transcript timestamps, so the system flags only the affected speech segments.
+The finished model sits behind a simple interface where users record or upload speech samples and receive an analysis with timestamped detection results and classification output.
 
 The project aims to give speech-language pathologists and people who stutter an accurate, objective, and accessible diagnostic tool.
 The system also contributes to the growing use of artificial intelligence in healthcare, supporting diagnosis, therapy, and an improved quality of life for people who stutter.

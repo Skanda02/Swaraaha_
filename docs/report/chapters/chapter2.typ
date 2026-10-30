@@ -43,13 +43,13 @@ Hardware guidelines appear in the hardware requirements section later in this ch
 
 These requirements include:
 
-- The system should support secure audio upload and classification.
-- Users should be able to store and retrieve previous analysis results.
-- The system should support proper storage for managing large speech datasets.
+- The system must accept audio uploads securely and classify them.
+- Users need a way to save previous analysis results and open them again.
+- Adequate storage must be available for managing large speech datasets.
 
 == NON-FUNCTIONAL REQUIREMENTS
 
-The non-functional requirements define the overall quality, performance, and usability standards that ensure the system operates efficiently and reliably.
+The non-functional requirements set the quality, performance, and usability standards the system has to meet so that it runs efficiently and reliably.
 The key requirement is performance efficiency, as the models handle deep learning and audio processing tasks that must deliver fast and accurate results with minimal delay.
 GPU acceleration and optimized memory management help achieve smooth processing of speech recordings.
 Reliability is equally important: the system should maintain consistent accuracy across datasets and handle interruptions through fault tolerance.
@@ -61,7 +61,7 @@ Finally, portability and availability ensure the system runs smoothly across dif
 === Performance
 
 - The system should process and analyse a speech sample within 3-5 seconds.
-- The classification results should minimize false positives and false negatives.
+- The classification results should keep false negatives and false positives low.
 - Performance metrics should be monitored regularly.
 - The system should handle processing of audio uploads without significant delay.
 
@@ -86,10 +86,10 @@ Finally, portability and availability ensure the system runs smoothly across dif
 
 == Software Requirements
 
-The software requirements are essential for developing, training, validating, and deploying deep learning models aimed at detecting stuttering events from speech audio.
-The system must support various tools and libraries that enable efficient model development, audio processing, and performance evaluation.
+The software requirements cover what is needed to develop, train, validate, and deploy the deep learning models that detect stuttering events in speech audio.
+A range of tools and libraries is needed to develop models, process audio, and evaluate performance.
 
-- *Operating System:* the proposed system is developed and executed on the Linux and Windows platforms. It is fully compatible with Windows 10 and above and common Linux distributions, offering stability, wide software support, and seamless integration with deep learning frameworks and GPU drivers. This environment ensures smooth performance, easy setup, and reliable execution of the proposed models, with both the web application and the PySide6 desktop application running on either platform and training and inference supported on CPU or NVIDIA GPU.
+- *Operating System:* the proposed system runs on Linux and Windows. It is fully compatible with Windows 10 and above and common Linux distributions, offering stability, wide software support, and seamless integration with deep learning frameworks and GPU drivers. This environment ensures smooth performance, easy setup, and reliable execution of the proposed models, with the PySide6 desktop application and the web application able to run on either platform and training and inference supported on CPU or NVIDIA GPU.
 - *Deep Learning Framework:* the proposed system is built using PyTorch as the primary deep learning framework for building and training the machine learning models. PyTorch provides the required computational efficiency, GPU support through features such as torch.compile, mixed precision, and TensorFloat-32 (TF32), and scalability for handling complex audio classification tasks effectively. The Hugging Face Transformers library supplies the pretrained speech models, Wav2Vec 2.0 for feature extraction and Whisper for timestamped transcription.
 - *Libraries:* a range of Python libraries is required to support different stages of the project:
   - librosa: Used for audio preprocessing and manipulation, including loading, resampling, mel-spectrogram computation, and silence trimming.
