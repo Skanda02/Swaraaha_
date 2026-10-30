@@ -15,7 +15,7 @@
   size: 12pt,
 )
 
-#show raw: set text(font: "Times New Roman")
+#show raw: set text(font: "Times New Roman", size: 12pt)
 
 #set par(
   justify: true,
