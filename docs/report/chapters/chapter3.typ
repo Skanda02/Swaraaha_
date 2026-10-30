@@ -88,14 +88,6 @@ Classification produces dysfluency probabilities, transcription a timestamped tr
 A CTC-based alignment step combines these outputs and maps the detected dysfluencies to specific words or syllables.
 The final data is turned into per-word annotations, shown in waveform and spectrogram displays, and written into the analysis report.
 
-The system also defines a structured data flow for training.
-Training uses three datasets: Project Boli (sourced via Git repositories), SEP-28K (approximately 28,000 audio clips), and UCLASS (both obtained via Kaggle).
-Each dataset goes through its own normalization functions.
-
-The processed datasets merge into a unified format: a combined_labels.csv file with multi-label binary annotations, plus individual interval CSV files for each audio clip.
-The merged dataset is split into training, validation, and testing subsets with an 80:10:10 split, with the training subset further re-split 80/20 during model training.
-The subsets are organized with symbolic links for efficient access, and preprocessed audio files are cached to speed up training.
-
 #add_image(align(center, image("/assets/01-system-flowchart.svg", width: 85%)), caption: [Flowchart])
 
 The flowchart shown in Figure 3.2 illustrates the workflow for stutter detection using the proposed hybrid deep learning approach.
@@ -104,7 +96,14 @@ The refined audio is then split into training, validation, and testing datasets 
 Initially, the Wav2Vec 2.0 model is used to extract high-level contextual speech features.
 To enhance performance, a hybrid model combining five independent Wav2Vec 2.0 binary classifiers with a Wav2Vec2 frame-level localizer is developed, where the classifiers capture dysfluency-specific acoustic patterns and the localizer identifies fine-grained temporal segments.
 The outputs from both pipelines are fused through CTC-based alignment and passed through a final aggregation layer that categorizes the audio samples as containing blocks, prolongations, sound repetitions, word repetitions, or interjections, along with the precise localized regions.
-This flowchart provides a clear overview of the systematic steps involved in the proposed framework for stutter detection.
+
+The system also defines a structured data flow for training.
+Training uses three datasets: Project Boli (sourced via Git repositories), SEP-28K (approximately 28,000 audio clips), and UCLASS (both obtained via Kaggle).
+Each dataset goes through its own normalization functions.
+
+The processed datasets merge into a unified format: a combined_labels.csv file with multi-label binary annotations, plus individual interval CSV files for each audio clip.
+The merged dataset is split into training, validation, and testing subsets with an 80:10:10 split, with the training subset further re-split 80/20 during model training.
+The subsets are organized with symbolic links for efficient access, and preprocessed audio files are cached to speed up training.
 
 == USE CASE DIAGRAM AND DESCRIPTIONS
 
