@@ -147,18 +147,12 @@ Finally, evaluation metrics such as precision, recall, F1-score, AUROC, and mean
 The sequence diagram shows how the components interact during execution.
 The user works through the graphical user interface (GUI), which sends a request to the backend API endpoint (`/api/analyze`).
 
+#add_image(align(center, image("/assets/04-sequence-diagram.svg", width: 95%)), caption: [Sequence Diagram])
+
 The backend runs the request through a chain of services: preprocessing, classification, transcription, localization, and alignment.
 Each service does its part and passes its output to the next stage.
 When processing completes, the results go back to the frontend, where the user sees them.
 The system also stores the results for report generation and history management.
-The sequence diagram shown in Figure 3.5 illustrates the interaction flow between the user, the frontend, the backend services, and the stored results during a speech analysis session.
-The user initiates the analysis through the graphical user interface, which sends a request to the backend API endpoint.
-The backend sequentially invokes the preprocessing, classification, transcription, localization, and alignment services, each consuming the output of the previous stage.
-Once the processing completes, the fused results are returned to the frontend for display and saved in the local storage for reports and the session history.
-This diagram provides a clear overview of the message exchange that drives the proposed framework.
-
-#add_image(align(center, image("/assets/04-sequence-diagram.svg", width: 95%)), caption: [Sequence Diagram])
-The sequence diagram (Figure 3.5) captures the end-to-end interaction model: the GUI acts as the entry point, the backend coordinates the analysis pipeline, and the results layer handles persistence and presentation. This separation of concerns ensures modularity, traceability of requests, and consistent formatting of outputs across the web and desktop interfaces. Together, these interactions ensure that each analysis request is handled reliably from input to report generation, with clear responsibility boundaries between components and minimal coupling between the frontend and backend services.
 
 The request lifecycle begins when the user confirms an analysis, at which point the frontend packages the audio, the selected mode, and any optional parameters into a single request.
 The backend validates the payload before any model is invoked, rejecting unsupported formats or empty inputs early so that expensive inference is never wasted on malformed data.
@@ -168,6 +162,5 @@ Localization runs in parallel with transcription where possible, since the two s
 The alignment stage fuses word timings with the localized regions so that each dysfluency can be reported in the context of the spoken words around it.
 If any single service fails, the backend returns a structured error instead of a partial result, and the frontend surfaces the failure without discarding the user's audio, allowing the request to be retried.
 On success, the fused payload is stored locally so that reports and the session history can be reconstructed later without re-running the models, which also keeps repeated report generation fast and independent of the analysis services.
-This clear division between request handling, computation, and persistence is what allows the same backend to serve both the web and desktop interfaces while keeping behaviour identical across them.
 
 #pagebreak()
