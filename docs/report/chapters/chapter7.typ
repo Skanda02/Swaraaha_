@@ -17,6 +17,9 @@ Overall, the complete system achieves a detection accuracy of 0.586 for localizi
 The system gives clinicians, speech-language pathologists, and people who stutter consistent predictions that reduce the burden of manual analysis, limit diagnostic variability, and support timely assessment.
 Classification accuracy for sparse classes such as block and word repetition (macro F1 0.556) is not yet sufficient for a standalone diagnostic tool, and cross-corpus generalization weakens outside podcast-style data (multitask F1 drops from 0.556 on the test set to 0.238 on the Boli corpus).
 Despite these limitations, the modular architecture combines classification, localization, transcription, and reporting in one pipeline, providing a practical foundation for real-world speech assessment.
+The main contribution is therefore the integration of these stages into one usable workflow.
+A clinician can move from an uploaded recording to class-level probabilities, localized regions, aligned words, and a saved report without manually joining outputs from separate tools.
+The modular design also leaves room for later improvements to individual models without requiring the interface or reporting layer to be redesigned.
 
 == SCOPE FOR FUTURE ENHANCEMENTS
 
@@ -27,5 +30,7 @@ Moreover, developing a user-friendly web and mobile interface for clinicians cou
 The system could also be enhanced with explainable AI features, such as attention visualization and saliency maps, to provide visual insights into how predictions are made, increasing trust and transparency in clinical decision-making.
 Multilingual models like MMS and XLS-R could extend language coverage beyond English, Kannada, and Hindi, while synthetic dysfluent speech generated with LLMs and text-to-speech systems could address the data scarcity problem during training.
 Finally, integrating this system with clinic databases and electronic health record systems could enable seamless clinical deployment, supporting doctors and speech-language pathologists in early assessment and personalized treatment planning for stuttering.
+Any such deployment should retain the current emphasis on privacy, transparent confidence values, and reviewable evidence.
+Future versions can improve coverage and accuracy while continuing to show how each result relates to the waveform, transcript, and detected dysfluency type.
 
 #pagebreak()

@@ -22,7 +22,7 @@
   //leading: 1.5em,
   leading: 1em,
   spacing: 1.5em,
-  justification-limits: (spacing: (min: 100%, max: 150%)),
+  justification-limits: (spacing: (min: 100%, max: 100%)),
 )
 
 #show figure.where(kind: table): set block(breakable: true)

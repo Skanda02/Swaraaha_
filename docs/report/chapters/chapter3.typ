@@ -28,6 +28,8 @@ The proposed deep learning architecture for the automatic classification and loc
 The framework integrates two model pathways, five independent Wav2Vec 2.0 binary classifiers for classification and a Wav2Vec2 frame-level pipeline for localization, to improve feature extraction, multi-perspective learning, and classification robustness.
 The complete workflow consists of five major phases: Input, Pre-processing, Feature Extraction, Classification, and Output.
 This dual-model structure enables richer representation learning and enhances overall detection accuracy.
+The architecture therefore separates reusable signal preparation from task-specific prediction.
+The same normalized waveform can be passed to classification, transcription, and localization, while the final fusion stage combines their outputs without duplicating preprocessing work.
 
 #add_image(align(center, image("/assets/architecture.svg", width: 70%)), caption: [System Architecture])
 
@@ -87,6 +89,9 @@ Classification produces dysfluency probabilities, transcription a timestamped tr
 
 A CTC-based alignment step combines these outputs and maps the detected dysfluencies to specific words or syllables.
 The final data is turned into per-word annotations, shown in waveform and spectrogram displays, and written into the analysis report.
+This sequence keeps the processing stages separate while allowing their outputs to be combined at the point where timing information is available.
+The separation also makes the workflow easier to test: preprocessing can be checked independently from model inference, and the alignment stage can be evaluated against transcript and interval annotations.
+Because every branch receives the same normalized audio, differences in the final result reflect the behavior of the individual models rather than inconsistent input preparation.
 
 #add_image(align(center, image("/assets/01-system-flowchart.svg", width: 85%)), caption: [Flowchart])
 
@@ -153,6 +158,8 @@ The backend runs the request through a chain of services: preprocessing, classif
 Each service does its part and passes its output to the next stage.
 When processing completes, the results go back to the frontend, where the user sees them.
 The system also stores the results for report generation and history management.
+This service sequence gives each component a clear responsibility and makes failures easier to identify.
+It also allows the stored analysis to be reused when the user opens a previous result, because the report layer receives the same structured payload that was produced during the original request.
 
 The request lifecycle begins when the user confirms an analysis, at which point the frontend packages the audio, the selected mode, and any optional parameters into a single request.
 The backend validates the payload before any model is invoked, rejecting unsupported formats or empty inputs early so that expensive inference is never wasted on malformed data.
@@ -162,5 +169,7 @@ Localization runs in parallel with transcription where possible, since the two s
 The alignment stage fuses word timings with the localized regions so that each dysfluency can be reported in the context of the spoken words around it.
 If any single service fails, the backend returns a structured error instead of a partial result, and the frontend surfaces the failure without discarding the user's audio, allowing the request to be retried.
 On success, the fused payload is stored locally so that reports and the session history can be reconstructed later without re-running the models, which also keeps repeated report generation fast and independent of the analysis services.
+This ordering also supports responsive use of the application. Independent operations can run in parallel after preprocessing, while the final report waits only for the outputs required for alignment and presentation.
+The stored result preserves the predictions, timestamps, transcript, and derived annotations together, so the web and desktop interfaces can display the same analysis without applying different interpretation rules.
 
 #pagebreak()

@@ -15,18 +15,26 @@ This ongoing maintenance ensures that the system remains optimized and responsiv
 
 == ALGORITHM
 The inference process follows a fixed sequence of steps that turns raw speech input into a complete, annotated analysis result.
+Each step has a defined input and output, which limits the amount of hidden state passed between services.
+This structure is important for repeatable analysis because the same conversion, normalization, model execution, and reporting stages are used for both recorded and uploaded speech.
 
-- Step 1, Input Acquisition: the system acquires speech input either through real-time recording or by uploading an audio file.
-- Step 2, Audio Conversion: the input audio is converted into a 16 kHz mono WAV format using FFmpeg to maintain consistency across all inputs.
-- Step 3, Preprocessing: the audio is cleaned by removing the DC offset, applying peak normalization to a target amplitude, and trimming silent segments.
-- Step 4, Length Normalization: the processed audio is adjusted to a fixed length of 48,000 samples (three seconds at 16 kHz) by padding or truncating as required.
-- Step 5, Parallel Processing: the system processes the audio simultaneously through three independent branches:
-  + Classification: Wav2Vec 2.0 embeddings are generated and passed through five binary classifiers, one per dysfluency type, and the outputs are aggregated into a multi-label result with a probability score for each dysfluency type.
-  + Transcription: the Whisper model generates a timestamped transcript of the speech in English, Kannada, or Hindi.
-  + Localization: the Wav2Vec2 frame-level localizer identifies the frame-level regions within the audio where dysfluencies occur.
-- Step 6, Alignment: the detected dysfluency regions are mapped to the corresponding words or syllables in the transcript using CTC-based time alignment.
-- Step 7, Combination and Severity: the combiner labels each localized region with per-class saliency scores from the classifier and fuses the classification and localization views, and the severity module computes a stutter index from the ratio of dysfluent speech duration to total speech duration.
-- Step 8, Visualization and Report Generation: the system displays the results through waveform overlays, spectrograms, transcripts, and confidence scores, and generates a detailed clinical-style report.
+- #keep[Step 1, Input Acquisition: the system acquires speech input either through real-time recording or by uploading an audio file.]
+- #keep[Step 2, Audio Conversion: the input audio is converted into a 16 kHz mono WAV format using FFmpeg to maintain consistency across all inputs.]
+- #keep[Step 3, Preprocessing: the audio is cleaned by removing the DC offset, applying peak normalization to a target amplitude, and trimming silent segments.]
+- #keep[Step 4, Length Normalization: the processed audio is adjusted to a fixed length of 48,000 samples (three seconds at 16 kHz) by padding or truncating as required.]
+- #keep[
+  Step 5, Parallel Processing: the system processes the audio simultaneously through three independent branches:
+  #enum[
+    Classification: Wav2Vec 2.0 embeddings are generated and passed through five binary classifiers, one per dysfluency type, and the outputs are aggregated into a multi-label result with a probability score for each dysfluency type.
+  ][
+    Transcription: the Whisper model generates a timestamped transcript of the speech in English, Kannada, or Hindi.
+  ][
+    Localization: the Wav2Vec2 frame-level localizer identifies the frame-level regions within the audio where dysfluencies occur.
+  ]
+]
+- #keep[Step 6, Alignment: the detected dysfluency regions are mapped to the corresponding words or syllables in the transcript using CTC-based time alignment.]
+- #keep[Step 7, Combination and Severity: the combiner labels each localized region with per-class saliency scores from the classifier and fuses the classification and localization views, and the severity module computes a stutter index from the ratio of dysfluent speech duration to total speech duration.]
+- #keep[Step 8, Visualization and Report Generation: the system displays the results through waveform overlays, spectrograms, transcripts, and confidence scores, and generates a detailed clinical-style report.]
 
 == IMPLEMENTATION REQUIREMENTS
 
@@ -68,10 +76,10 @@ This phase confirms that the hybrid model performs well on new and unseen sample
 Model evaluation is essential for assessing the overall performance and reliability of the proposed system.
 Once the models are trained and tested, several quantitative metrics measure their classification performance:
 
-- Accuracy: measures the proportion of correctly predicted samples.
-- Precision: the share of predicted positive instances that are actually positive.
-- Recall (Sensitivity): measures how effectively the model identifies all relevant positive samples.
-- F1-Score: provides a harmonic mean of precision and recall to balance both metrics.
+- #keep[Accuracy: measures the proportion of correctly predicted samples.]
+- #keep[Precision: the share of predicted positive instances that are actually positive.]
+- #keep[Recall (Sensitivity): measures how effectively the model identifies all relevant positive samples.]
+- #keep[F1-Score: provides a harmonic mean of precision and recall to balance both metrics.]
 
 The five Wav2Vec 2.0 binary classifiers, one per dysfluency type, are further measured with AUROC (Area Under the Receiver Operating Characteristic Curve), AUPRC (Area Under the Precision-Recall Curve), and specificity, summarized per class and as a macro average across the five dysfluency classes.
 The Wav2Vec2 frame-level localizer is measured with frame-level precision, recall, and F1, detection accuracy, mean Intersection over Union (IoU) between predicted and ground-truth regions, and the false alarm rate per minute.

@@ -108,6 +108,8 @@
 
 #let footer_line() = frame_double_rule()
 
+#let keep(body) = block(breakable: false, body)
+
 // --- Front-matter helpers ---
 
 // Centered line of text with the given size/weight/fill.

@@ -20,5 +20,8 @@ The desktop client mirrors the web workflow but runs entirely on the local machi
 
 The desktop analysis results page, shown in Figure 6.4, presents a classification table that reports whether each of the five dysfluency types was detected and the corresponding confidence value, while the localization timeline marks detected events on the waveform. The user can review the analysis, return to the home page, or export the results as a PDF report.
 The results page keeps the classification table and the timeline visually linked: selecting a row highlights the corresponding region on the waveform. This coupling lets a clinician move from a summary judgement to the exact evidence behind it without manually searching the audio, which is the main practical advantage of combining classification and localization in one view. The confidence values are shown per class rather than collapsed into a single score, so a weak detection is visible instead of being hidden. Exporting the PDF captures the table, waveform overlays, and transcript in one document.
+Together, the web and desktop screens present the same pipeline at different levels of deployment.
+The web interface emphasizes shared access and report download, while the desktop interface keeps audio and inference local.
+In both cases, the visible result connects the class-level prediction, the time-localized event, and the transcript context so that the output can be reviewed rather than treated as an unexplained label.
 
 #pagebreak()

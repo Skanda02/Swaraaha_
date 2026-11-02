@@ -237,6 +237,8 @@ The CNN models have far fewer parameters but score lower on the test set.
 On the Boli cross-corpus set the ranking flips: CNN-LSTM reaches 0.508, the best cross-corpus result, followed by CNN Single (0.476). Lighter models seem to generalize better to unseen speakers, while heavy pre-trained models do better on familiar data.
 
 The per-class tuned F1 scores on the Boli set are shown in Figure 5.5, where the lighter CNN variants lead the comparison.
+This result reinforces the need to report both ordinary test performance and cross-corpus performance.
+The former measures how well the models recognize patterns similar to those seen during development, whereas the latter exposes sensitivity to changes in speaker, language, recording style, and data source.
 
 It was concluded that the Wav2Vec2 family should be shipped for in-distribution accuracy, with the CNN-LSTM variant available as a lighter alternative that transfers best to unseen speakers and languages.
 
@@ -244,5 +246,8 @@ This conclusion reflects a deliberate trade-off rather than a claim that one arc
 The practical implication is that the system reports both numbers instead of a single headline score, and that deployment should state which regime is expected. For a clinic working with speakers and equipment similar to the training data, the Wav2Vec2 configuration is the better default; for a deployment that must handle unfamiliar speakers or languages without retraining, the CNN-LSTM variant is the safer choice and runs on far more modest hardware.
 
 The comparison also clarifies where further work would pay off: the gap between in-distribution and cross-corpus performance is larger than the gap between architectures, so data coverage and speaker diversity matter more than adding parameters.
+These findings also guide how the system should be evaluated after deployment.
+Performance should be monitored separately for familiar and unfamiliar recording conditions, and results should be reviewed by dysfluency class rather than reduced to one overall score.
+That reporting practice makes changes in data coverage, thresholds, or model architecture visible and helps prevent an improvement for one class from masking a regression in another.
 
 #pagebreak()
