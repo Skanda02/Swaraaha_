@@ -43,7 +43,7 @@ This project addresses that gap with a single pipeline that takes an unconstrain
 == OBJECTIVES
 
 The project is organised around four objectives, and each one supplies a stage of the final pipeline.
-
+#set par(leading: 0.95em)
 + #block(breakable: false)[*Speech preprocessing:* clean and standardise the input audio so every downstream model receives consistent data. This covers resampling to a fixed rate, DC offset removal, peak normalization, silence trimming, fixed-length padding, and augmentation such as noise injection and time or pitch shifting, which together reduce the effect of varying recording conditions and speaker loudness.]
 
 + #block(breakable: false)[*Stutter detection:* decide whether a sample contains dysfluent speech at all. The binary output gates the rest of the analysis, so the model is trained to hold up across speakers, languages, and background noise, not only on clean studio recordings.]
@@ -52,6 +52,7 @@ The project is organised around four objectives, and each one supplies a stage o
 
 + #block(breakable: false)[*Stutter localization:* find the time regions where detected events occur and align them with the corresponding words in the transcript. Clinicians get usable timestamps, so they can go straight to the affected segment and compare the detected events with what was said.]
 
+#set par(leading: 1em)
 The objectives are ordered so each stage builds on the one before it. Preprocessing produces a normalized waveform and spectrogram for detection and classification. Detection narrows the analysis to samples that contain dysfluencies. Classification assigns type-level scores, and localization maps the events back onto the time axis and the transcript.
 Together these stages turn a recording into evidence that can be inspected at clip level and at event level. The classification scores summarise what was detected, while the localized intervals and aligned transcript show where it happened, which makes the result easier to review.
 

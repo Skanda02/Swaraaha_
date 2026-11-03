@@ -90,21 +90,19 @@ Portability and availability keep the system running across platforms, with high
 
 == Software Requirements
 
-The software requirements cover the tools needed to develop, train, validate, and deploy the models that detect stuttering events in speech audio.
-The project draws on a range of libraries for model development, audio processing, and evaluation.
+The software requirements cover the tools used to develop, train, validate, and deploy the stutter detection models.
 
-- #keep[*Operating System:* the system runs on Linux and Windows. It is compatible with Windows 10 and above and common Linux distributions, which offer stability, wide software support, and integration with deep learning frameworks and GPU drivers. The PySide6 desktop application and the web application run on either platform, and training and inference are supported on CPU or an NVIDIA GPU.]
+- #keep[*Operating System:* the system runs on Linux and Windows, including Windows 10 and above and common Linux distributions. The PySide6 desktop application and the web application run on either platform, and training and inference are supported on CPU or an NVIDIA GPU.]
 - #keep[*Deep Learning Framework:* PyTorch is the primary framework for building and training the models. It provides GPU support through torch.compile, mixed precision, and TensorFloat-32 (TF32), and it scales to the audio classification tasks in this project. Hugging Face Transformers supplies the pretrained speech models, Wav2Vec 2.0 for feature extraction and Whisper for timestamped transcription.]
 - *Libraries:* a range of Python libraries supports different stages of the project:
   - #keep[librosa: Used for audio preprocessing and manipulation, including loading, resampling, mel-spectrogram computation, and silence trimming.]
   - #keep[NumPy: Provides support for numerical operations and array handling.]
-  - #keep[Pandas: Essential for managing and analysing structured data such as labels or metadata.]
+  - #keep[Pandas: managing structured data such as labels or metadata.]
   - #keep[Scikit-learn: Used for data splitting, model evaluation metrics, and traditional machine learning algorithms.]
 
 == Hardware Requirements
 
 The hardware requirements give the minimum and recommended specifications for running the models.
-Adequate hardware keeps data processing, training, and inference smooth when the input is speech audio.
 
 - #keep[*Processor (CPU):* a multi-core processor such as an Intel Core i5 (8th generation or newer) or AMD Ryzen 5 and above. It provides enough power for audio preprocessing and training workflows.]
 - #keep[*Storage (Hard Disk):* at least 10 GB of free disk space for datasets, checkpoints, logs, and temporary files. An SSD is recommended for faster read and write speeds.]
@@ -112,8 +110,7 @@ Adequate hardware keeps data processing, training, and inference smooth when the
 - #keep[*Graphics Processing Unit (GPU):* an NVIDIA GPU with CUDA support is recommended for faster training. Cards such as the RTX 2060 or higher (RTX 3060, RTX 3080) cut training time and handle larger datasets and deeper networks. CUDA and cuDNN must be installed for full compatibility with PyTorch.]
 - *Audio Input Device:* a working microphone is required for recording speech in the application.
 
-The minimum configuration is enough for inference on short clips.
-Training or fine-tuning the larger pretrained backbones benefits from the recommended configuration.
-A GPU with at least 8 GB of memory is preferable for fine-tuning, although classification-only mode runs comfortably on a CPU.
+The minimum configuration handles inference on short clips.
+Fine-tuning the larger pretrained backbones benefits from the recommended configuration, and a GPU with at least 8 GB of memory is preferable, though classification-only mode runs comfortably on a CPU.
 
 #pagebreak()

@@ -84,20 +84,15 @@ The registry reads from a registry module (the `model/registry` package) and a c
 The process begins with the input audio, recorded or uploaded by the user.
 The audio is converted to 16 kHz mono WAV with FFmpeg, then padded or truncated to 48,000 samples, three seconds at 16 kHz, so all inputs have the same length.
 
-After normalization, the audio runs through three parallel pipelines: classification, transcription, and localization.
-Classification produces dysfluency probabilities, transcription a timestamped transcript, and localization frame-level dysfluency regions.
+After normalization, the audio runs through classification, transcription, and localization in parallel.
 
 A CTC-based alignment step combines these outputs and maps the detected dysfluencies to specific words or syllables.
 The final data is turned into per-word annotations, shown in waveform and spectrogram displays, and written into the analysis report.
-This sequence keeps the processing stages separate while allowing their outputs to be combined at the point where timing information is available.
-The separation also makes the workflow easier to test: preprocessing can be checked independently from model inference, and the alignment stage can be evaluated against transcript and interval annotations.
-Because every branch receives the same normalized audio, differences in the final result reflect the behavior of the individual models rather than inconsistent input preparation.
+The stages stay separate so each can be tested on its own, and every branch receives the same normalized audio.
 
 #add_image(align(center, image("/assets/01-system-flowchart.svg", width: 85%)), caption: [Flowchart])
 
-The flowchart shown in Figure 3.2 illustrates the workflow for stutter detection using the proposed hybrid deep learning approach.
-The process begins with the collection of speech audio recordings, followed by preprocessing steps such as conversion to 16 kHz mono WAV, DC offset removal, peak normalization, silence trimming, and fixed-length padding to improve signal quality and variability.
-The refined audio is then split into training, validation, and testing datasets with an 80:10:10 split.
+The flowchart in Figure 3.2 shows the full workflow, from input audio through preprocessing, the three model branches, and the final report.
 Initially, the Wav2Vec 2.0 model is used to extract high-level contextual speech features.
 To enhance performance, a hybrid model combining five independent Wav2Vec 2.0 binary classifiers with a Wav2Vec2 frame-level localizer is developed, where the classifiers capture dysfluency-specific acoustic patterns and the localizer identifies fine-grained temporal segments.
 The outputs from both pipelines are fused through CTC-based alignment and passed through a final aggregation layer that categorizes the audio samples as containing blocks, prolongations, sound repetitions, word repetitions, or interjections, along with the precise localized regions.
@@ -112,24 +107,33 @@ The subsets are organized with symbolic links for efficient access, and preproce
 
 == USE CASE DIAGRAM AND DESCRIPTIONS
 
-The use case diagram shows how the user interacts with the system.
-The primary actor is the User, either a clinician or an individual using the application for self-assessment.
+Figure 3.3 shows the use case diagram in UML: the actor stands outside the system boundary, and lines connect it to the use cases it can start.
+The only actor is the User, since clinicians and people assessing their own speech follow the same path.
 
-The main workflow covers recording audio, uploading pre-recorded audio, and running speech analysis in either full mode or classification-only mode.
-After analysis, users can view waveform visualizations, spectrograms, transcripts, and stutter detection results.
+Upload / Record Speech is the entry point.
+Audio can come from the microphone or a saved file, and the interface checks the file before sending it to the backend.
 
-Users can also localize dysfluencies within the speech, generate analysis or clinical reports, and revisit previously recorded sessions through a history feature.
-Supporting actions include toggling between interface themes and accessing standardized reading passages for consistent evaluation.
-The diagram keeps the user in a single role so that clinicians and individuals follow the same path, from capturing speech to reviewing the outcome.
-Results are stored per session, which lets a user compare recordings over time and monitor progress across assessments.
+Select Language sets the language used for transcription and alignment; English, Kannada, and Hindi are supported.
+
+Analyze Speech is the central use case.
+Full mode runs preprocessing, classification, transcription, localization, and CTC-based alignment.
+Classification-only mode runs the five classifiers and skips transcription and localization.
+Full mode returns a confidence score for each dysfluency type, a summary of the primary dysfluency, and the time regions where events were found.
+
+View Analysis Results shows the per-class scores, a waveform with color-coded dysfluency regions, a spectrogram, and a timestamped transcript.
+
+Download Clinical Report writes the stored result to a PDF without rerunning the models.
+Review Assessment History reopens earlier sessions from IndexedDB and localStorage, so recordings can be compared over time.
+Theme switching and the standardized reading passages support the same workflow.
 
 #add_image(align(center, image("/assets/03-use-case-diagram.svg", width: 60%)), caption: [Use Case Diagram])
 
-The use case diagram shown in Figure 3.3 illustrates the interactions between the user and the stutter detection system.
-The user can register or log in, then either record audio through the microphone or upload a pre-recorded speech file, which is analyzed through the full or classification-only pipeline.
-The system displays the classification results with confidence scores, localized dysfluency regions, and a timestamped transcript, and allows the user to generate and download analysis or clinical reports.
-Additional use cases include viewing the session history, switching between light and dark themes, and accessing standardized reading passages for consistent assessment.
-This diagram provides a clear overview of the functional interactions supported by the proposed framework.
+Figure 3.3 groups the six use cases around the single actor.
+Upload / Record Speech and Select Language supply the audio and the language setting.
+Analyze Speech uses both and produces the classification scores, localized regions, and transcript.
+View Analysis Results, Download Clinical Report, and Review Assessment History then read the stored result.
+A report or a history entry cannot exist before an analysis has run.
+Because the results page, the report, and the history all read the same payload, they show the same outcome for a given recording.
 
 == WORKFLOW DIAGRAM
 
