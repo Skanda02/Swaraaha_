@@ -33,6 +33,7 @@
 // --- Front matter ---
 #include "frontmatter/titlepage.typ"
 #include "frontmatter/certificate.typ"
+#include "frontmatter/certificate_dairy.typ"
 
 #set page(
   margin: (top: 0.75in, bottom: 0.75in, left: 1.25in, right: 1in),
@@ -105,3 +106,58 @@
 
 // --- Personal Profile ---
 #include "personal_profile.typ"
+
+// --- Pages after the personal profile: standalone, no report page formatting ---
+#set page(
+  header: none,
+  footer: none,
+  numbering: none,
+)
+#include "frontmatter/sdg.typ"
+
+// JS certificate scans: bare full-page pages
+#set page(margin: 0pt)
+
+#align(center + horizon)[
+  #rotate(
+    90deg,
+    reflow: true,
+    image("/assets/JS-Shreekrishna.png", width: 100%),
+  )
+]
+
+#pagebreak()
+
+#align(center + horizon)[
+  #rotate(
+    90deg,
+    reflow: true,
+    image("/assets/JS-chethan.jpeg", width: 100%),
+  )
+]
+
+#pagebreak()
+
+#align(center + horizon)[
+  #rotate(
+    90deg,
+    reflow: true,
+    image("/assets/JS-skanda.jpeg", width: 100%),
+  )
+]
+
+#pagebreak()
+
+#align(center + horizon)[
+  #rotate(
+    90deg,
+    reflow: true,
+    image("/assets/JS-Srinivas.jpeg", width: 100%),
+  )
+]
+
+// --- Research paper (appended as-is, 11 pages) ---
+#for p in range(1, 12) [
+  #if p > 1 { pagebreak() }
+  #image("/assets/Research-Paper.pdf", page: p, width: 100%)
+]
