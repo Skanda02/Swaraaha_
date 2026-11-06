@@ -1,8 +1,8 @@
 #let lit_survey_counter = counter("literature counter")
 
-#let non_outlined_heading(level: 1, label: none, body) = {
+#let non_outlined_heading(size: 18pt, label: none, body) = {
   align(center)[
-    #heading(level: level, outlined: false)[#body]
+    #text(size: size, weight: "bold")[#body]
     #label
   ]
   v(0.5em)

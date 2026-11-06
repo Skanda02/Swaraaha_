@@ -6,6 +6,7 @@
 #set page(numbering: "I")
 
 #non_outlined_heading(label: <loa>)[LIST OF ABBREVIATIONS]
+
 #table(
   columns: (1fr, 3fr),
   stroke: none,

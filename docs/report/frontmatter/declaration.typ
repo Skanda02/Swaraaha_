@@ -3,6 +3,9 @@
 
 // --- Declaration ---
 #[
+  #set page(
+    margin: (top: 1.9cm, bottom: 0.5cm, left: 2.25cm, right: 1.9cm),
+  )
   #set par(leading: 0pt, spacing: 0pt)
 
   #align(center, text(size: 18pt, weight: "bold")[DECLARATION])

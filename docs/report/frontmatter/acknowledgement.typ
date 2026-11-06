@@ -3,11 +3,10 @@
 
 // --- Acknowledgement ---
 #[
-  #set text(hyphenate: false)
-  #set par(spacing: 1.7em)
-  #v(5.05pt)
-  #pad(left: 122.8pt, text(size: 18pt, weight: "bold")[ACKNOWLEDGEMENT])
-  #v(25.8pt)
+  #set page(
+    margin: (top: 2cm, bottom: 0.5cm, left: 2.25cm, right: 2cm),
+  )
+  #non_outlined_heading()[ACKNOWLEDGEMENT]
 
   We take this opportunity to express our deep heartfelt gratitude to all those people who have helped us in the successful completion of the project.
 
@@ -15,7 +14,6 @@
 
   We would like to express our sincere gratitude to Head of the Department of #department, *#hod* for #hod_pronoun guidance and inspiration.
 
-  #set par(justify: false)
   We would like to thank our Principal, *#principal* for providing all the facilities and a proper environment to work in the college campus.
 
   We would like to thank our management for providing the necessary infrastructure to carry out the project work.

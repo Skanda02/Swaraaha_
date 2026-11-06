@@ -7,7 +7,7 @@
 
 #set page(
   paper: "a4",
-  margin: (x: 2.5cm, y: 2.5cm),
+  margin: (top: 0.75in, bottom: 0.75in, left: 1.25in, right: 1in),
 )
 
 #set text(
@@ -35,30 +35,9 @@
 #include "frontmatter/titlepage.typ"
 #include "frontmatter/certificate.typ"
 #include "frontmatter/certificate_dairy.typ"
-
-// Front-matter sheets below use the page geometry of the reference report.
-// Declaration
-#set page(
-  margin: (top: 54pt, bottom: 14pt, left: 63.8pt, right: 54pt),
-)
 #include "frontmatter/declaration.typ"
-
-// Acknowledgement
-#set page(
-  margin: (top: 66.1pt, bottom: 14pt, left: 63.8pt, right: 54pt),
-)
 #include "frontmatter/acknowledgement.typ"
-
-// Abstract
-#set page(
-  margin: (top: 67.9pt, bottom: 14pt, left: 56.8pt, right: 39.1pt),
-)
 #include "frontmatter/abstract.typ"
-
-// Restore the standard front-matter margins for the TOC, abbreviations, etc.
-#set page(
-  margin: (top: 0.75in, bottom: 0.75in, left: 1.25in, right: 1in),
-)
 #include "frontmatter/toc.typ"
 #include "frontmatter/abbreviations.typ"
 

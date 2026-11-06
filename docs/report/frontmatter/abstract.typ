@@ -1,14 +1,16 @@
 #import "../lib.typ": *
 
+
 // --- Abstract ---
 #[
-  #set text(hyphenate: false)
-  #pad(left: 180pt)[#heading(level: 1, outlined: false)[ABSTRACT]]
-  #v(3.15em)
+  #set page(
+    margin: (top: 2cm, bottom: 0.5cm, left: 2.25cm, right: 2cm),
+  )
+  #non_outlined_heading()[ABSTRACT]
 
   Stuttering disrupts the natural flow of communication through involuntary repetitions, prolongations, blocks, and pauses.
   Roughly 1% of people worldwide are affected, and the condition can reach into their social, professional, and personal life.
-  Diagnosis today still relies mostly on manual assessment by speech-language pathologists, which is subjective, time-consuming, and not available to everyone.
+  Diagnosis today still relies mostly on manual assessment by speech-language pathologists, which is subjective, time consuming, and not available to everyone.
   This project builds an automated system that uses deep learning to detect, classify, and analyze stuttering events in speech recordings.
   The system identifies the types of dysfluencies present and reports when they occur.
   Users record or upload audio through a simple interface and receive the results in an accessible format.

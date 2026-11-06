@@ -97,8 +97,8 @@
 
 #grid(
   columns: (8em, 1fr, 6.5em),
-  align: (left, left, right),
-  [*Table No.*], [*Title*], [*Page No.*]
+  align: (left, center, right),
+  move(dx: -0.5cm)[*Table No.*], [*Title*], move(dx: 0.5cm)[*Page No.*]
 )
 #outline(
   title: none,
@@ -112,8 +112,8 @@
 
 #grid(
   columns: (8.5em, 1fr, 6.5em),
-  align: (left, left, right),
-  [*Figure No.*], [*Title*], [*Page No.*]
+  align: (left, center, right),
+  move(dx: -0.5cm)[*Figure No.*], [*Title*], move(dx: 0.5cm)[*Page No.*]
 )
 #outline(
   title: none,
