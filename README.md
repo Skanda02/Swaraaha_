@@ -26,7 +26,7 @@ Swaraaha/
 │   └── registry.json    # Active model paths + thresholds + defaults
 ├── app/               # PySide6 desktop application
 ├── shared/            # Shared code used across app surfaces
-├── demo_audio/        # Small demo/sample audio files
+├── demo_audio/        # Sample audio + dataset-format labels CSV
 ├── docker-compose.yml
 └── backend.Dockerfile
 ```
@@ -158,6 +158,47 @@ python -m model.data.setup --force
 
 Any extra flags after `--` are forwarded to every step (download, merge,
 prepare), e.g. `python -m model.data.setup -- --some-flag value`.
+
+### Demo audio
+
+`demo_audio/` contains six 3-second SEP-28K clips covering all five dysfluency
+types, so you can try the pipeline without downloading the full dataset. It
+also includes
+[`demo_audio/demo_audio_labels.csv`](demo_audio/demo_audio_labels.csv), a
+miniature version of the `data/combined_labels.csv` produced by
+`model.data.merge` and consumed by `model.data.prepare`. The demo CSV uses the
+same columns (`clip_file`, the five label columns, `source`) with `clip_file`
+pointing at `demo_audio/` instead of `RawData/`, showing the labels format the
+dataset setup script uses to build train/val/test splits. Labels are copied
+from the full dataset, and paths are relative to the repository root.
+
+The CSV also works as a small evaluation manifest. From the repository root:
+
+```bash
+python - <<'PY'
+import pandas as pd
+from model.registry import ClassifierRunner
+
+label_cols = {
+    "prolongation": "Prolongation",
+    "block": "Block",
+    "soundrep": "SoundRep",
+    "wordrep": "WordRep",
+    "interjection": "Interjection",
+}
+df = pd.read_csv("demo_audio/demo_audio_labels.csv")
+clf = ClassifierRunner()
+
+for _, row in df.iterrows():
+    result = clf.analyze(row["clip_file"])
+    expected = sorted(c for c, col in label_cols.items() if row[col] == 1)
+    detected = sorted(result["summary"]["detected"])
+    print(f"{row['clip_file']}\n  expected: {expected}\n  detected: {detected}\n")
+PY
+```
+
+This loads the active classifiers through the model registry, runs them on each
+demo clip, and prints the CSV labels next to the detected labels.
 
 See [`model/data/README.md`](model/data/README.md) for detailed instructions and manual setup options.
 
